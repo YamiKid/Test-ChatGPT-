@@ -1,0 +1,7 @@
+.build/
+DerivedData/
+*.xcresult
+*.log
+Garnet-Submission.zip
+.DS_Store
+xcuserdata/
