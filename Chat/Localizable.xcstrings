@@ -995,13 +995,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask questions and watch the answer appear in real time."
+            "value" : "Ask questions and get a complete answer when it’s ready."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Задавайте вопросы и наблюдайте, как ответ появляется в реальном времени."
+            "value" : "Задавайте вопросы и получайте полный ответ, когда он будет готов."
           }
         }
       }
@@ -1641,13 +1641,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ask anything — the answer appears as it’s generated."
+            "value" : "Ask anything — the complete answer appears when it’s ready."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спросите что угодно — ответ появится прямо по мере генерации."
+            "value" : "Спросите что угодно — полный ответ появится, когда будет готов."
           }
         }
       }
@@ -1665,6 +1665,227 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Чем могу помочь?"
+          }
+        }
+      }
+    },
+    "wait_for_response" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wait for the response in the other chat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидайте ответа в другом чате"
+          }
+        }
+      }
+    },
+    "wait_for_response_short" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wait…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидайте…"
+          }
+        }
+      }
+    },
+    "add_attachment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add attachment"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить вложение"
+          }
+        }
+      }
+    },
+    "add_file" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл"
+          }
+        }
+      }
+    },
+    "add_photo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото"
+          }
+        }
+      }
+    },
+    "attachment_error_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t add attachment"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось добавить вложение"
+          }
+        }
+      }
+    },
+    "attachment_limit_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can attach up to three photos or files to one message."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К одному сообщению можно прикрепить не более трёх фото или файлов."
+          }
+        }
+      }
+    },
+    "file" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл"
+          }
+        }
+      }
+    },
+    "file_chat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Document analysis"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анализ документа"
+          }
+        }
+      }
+    },
+    "file_read_error_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a readable PDF, TXT, Markdown, JSON, CSV, XML, or source-code file up to 10 MB."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите читаемый PDF, TXT, Markdown, JSON, CSV, XML или файл с кодом размером до 10 МБ."
+          }
+        }
+      }
+    },
+    "image_read_error_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One or more selected images couldn’t be processed. Try another image."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось обработать одно или несколько изображений. Попробуйте выбрать другое."
+          }
+        }
+      }
+    },
+    "remove_attachment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove attachment"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить вложение"
+          }
+        }
+      }
+    },
+    "text_document" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text document"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текстовый документ"
           }
         }
       }

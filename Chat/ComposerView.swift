@@ -8,6 +8,7 @@ struct ComposerView: View {
     private let maximumAttachmentCount = 3
 
     let isGenerating: Bool
+    let isBlockedByAnotherChat: Bool
     let onSend: (String, [ChatAttachment]) -> Void
     let onStop: () -> Void
 
@@ -22,6 +23,21 @@ struct ComposerView: View {
 
     var body: some View {
         VStack(spacing: 8) {
+            if isBlockedByAnotherChat {
+                HStack(spacing: 8) {
+                    Image(systemName: "hourglass")
+                        .symbolEffect(.pulse)
+                    Text(L10n.waitForResponse)
+                        .font(.caption.weight(.semibold))
+                    Spacer(minLength: 0)
+                }
+                .foregroundStyle(AppTheme.accent)
+                .padding(.horizontal, 13)
+                .padding(.vertical, 8)
+                .background(AppTheme.accent.opacity(0.1), in: Capsule())
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+
             if !attachments.isEmpty {
                 attachmentPreview
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -58,15 +74,22 @@ struct ComposerView: View {
                     .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
-                .disabled(isGenerating || isLoadingAttachments || attachments.count >= maximumAttachmentCount)
+                .disabled(
+                    isGenerating || isBlockedByAnotherChat || isLoadingAttachments ||
+                        attachments.count >= maximumAttachmentCount
+                )
                 .accessibilityLabel(L10n.addAttachment)
 
-                TextField(L10n.messagePlaceholder, text: $text, axis: .vertical)
+                TextField(
+                    isBlockedByAnotherChat ? L10n.waitForResponseShort : L10n.messagePlaceholder,
+                    text: $text,
+                    axis: .vertical
+                )
                     .lineLimit(1...6)
                     .focused($isFocused)
                     .submitLabel(.send)
                     .onSubmit(send)
-                    .disabled(isGenerating)
+                    .disabled(isGenerating || isBlockedByAnotherChat)
                     .padding(.vertical, 11)
 
                 Button {
@@ -79,16 +102,16 @@ struct ComposerView: View {
                 } label: {
                     Image(systemName: isGenerating ? "stop.fill" : "arrow.up")
                         .font(.system(size: isGenerating ? 13 : 16, weight: .bold))
-                        .foregroundStyle(canSend || isGenerating ? Color.white : Color.secondary)
+                        .foregroundStyle(canSubmit || isGenerating ? Color.white : Color.secondary)
                         .frame(width: actionButtonSize, height: actionButtonSize)
                         .background(
-                            canSend || isGenerating ? AppTheme.accent : AppTheme.tertiaryBackground,
+                            canSubmit || isGenerating ? AppTheme.accent : AppTheme.tertiaryBackground,
                             in: Circle()
                         )
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
-                .disabled(!isGenerating && !canSend)
+                .disabled(isBlockedByAnotherChat || (!isGenerating && !canSend))
                 .accessibilityLabel(isGenerating ? L10n.stopGeneration : L10n.send)
             }
             .padding(.leading, 13)
@@ -109,6 +132,12 @@ struct ComposerView: View {
         .padding(.bottom, 5)
         .background(.ultraThinMaterial)
         .animation(.easeOut(duration: 0.2), value: attachments.count)
+        .animation(.easeOut(duration: 0.2), value: isBlockedByAnotherChat)
+        .onChange(of: isBlockedByAnotherChat) { _, blocked in
+            if blocked {
+                isFocused = false
+            }
+        }
         .onChange(of: pickerItems) { _, items in
             guard !items.isEmpty else { return }
             Task { await loadImages(from: items) }
@@ -136,8 +165,12 @@ struct ComposerView: View {
         !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !attachments.isEmpty
     }
 
+    private var canSubmit: Bool {
+        canSend && !isBlockedByAnotherChat
+    }
+
     private func send() {
-        guard canSend, !isGenerating else { return }
+        guard canSend, !isGenerating, !isBlockedByAnotherChat else { return }
         let prompt = text
         let sentAttachments = attachments
         isFocused = false

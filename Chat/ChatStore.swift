@@ -10,7 +10,7 @@ final class ChatStore: ObservableObject {
 
     private let aiClient: AIClient
     private let persistenceURL: URL
-    private let maxConcurrentGenerations = 2
+    private let maxConcurrentGenerations = 1
     private var generationTasks: [UUID: Task<Void, Never>] = [:]
     private var generationQueue: [ScheduledGeneration] = []
     private var streamingMessageIDs: [UUID: UUID] = [:]
@@ -58,6 +58,14 @@ final class ChatStore: ObservableObject {
 
     var generationState: GenerationState {
         state(for: selectedChatID)
+    }
+
+    var hasActiveGeneration: Bool {
+        generationStates.values.contains(.generating)
+    }
+
+    var isSelectedChatBlockedByAnotherChat: Bool {
+        generationState != .generating && hasActiveGeneration
     }
 
     func state(for chatID: UUID?) -> GenerationState {
@@ -121,7 +129,7 @@ final class ChatStore: ObservableObject {
 
     func send(_ text: String, attachments: [ChatAttachment] = []) {
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !clean.isEmpty || !attachments.isEmpty else { return }
+        guard (!clean.isEmpty || !attachments.isEmpty), !hasActiveGeneration else { return }
 
         let chatID = selectedChatID ?? createChat()
         guard !isGenerating(chatID), let index = chatIndex(for: chatID) else { return }
@@ -159,7 +167,7 @@ final class ChatStore: ObservableObject {
     }
 
     func retry(in chatID: UUID) {
-        guard !isGenerating(chatID), let index = chatIndex(for: chatID) else { return }
+        guard !hasActiveGeneration, !isGenerating(chatID), let index = chatIndex(for: chatID) else { return }
         if let failedMessageID = failedMessageIDs[chatID] {
             var updatedChats = chats
             updatedChats[index].messages.removeAll { $0.id == failedMessageID }

@@ -17,7 +17,7 @@ struct ChatMessage: Identifiable, Codable, Equatable, Sendable {
         case id, role, text, attachments, createdAt
     }
 
-    init(
+    nonisolated init(
         id: UUID = UUID(),
         role: MessageRole,
         text: String,
@@ -31,7 +31,7 @@ struct ChatMessage: Identifiable, Codable, Equatable, Sendable {
         self.createdAt = createdAt
     }
 
-    init(from decoder: Decoder) throws {
+    nonisolated init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         role = try container.decode(MessageRole.self, forKey: .role)
@@ -53,7 +53,7 @@ struct ChatAttachment: Identifiable, Codable, Equatable, Sendable {
         case id, data, mimeType, fileName, extractedText, thumbnailData
     }
 
-    init(
+    nonisolated init(
         id: UUID = UUID(),
         data: Data,
         mimeType: String = "image/jpeg",
@@ -69,7 +69,7 @@ struct ChatAttachment: Identifiable, Codable, Equatable, Sendable {
         self.thumbnailData = thumbnailData
     }
 
-    init(from decoder: Decoder) throws {
+    nonisolated init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         data = try container.decodeIfPresent(Data.self, forKey: .data) ?? Data()
@@ -79,9 +79,9 @@ struct ChatAttachment: Identifiable, Codable, Equatable, Sendable {
         thumbnailData = try container.decodeIfPresent(Data.self, forKey: .thumbnailData)
     }
 
-    var isImage: Bool { mimeType.hasPrefix("image/") }
+    nonisolated var isImage: Bool { mimeType.hasPrefix("image/") }
     var displayName: String { fileName ?? (isImage ? L10n.photo : L10n.file) }
-    var previewData: Data { thumbnailData ?? data }
+    nonisolated var previewData: Data { thumbnailData ?? data }
 }
 
 struct ChatThread: Identifiable, Codable, Equatable, Sendable {

@@ -33,6 +33,8 @@ enum L10n {
     static var you: String { localized("you") }
     static var thinking: String { localized("thinking") }
     static var aiGenerating: String { localized("ai_generating") }
+    static var waitForResponse: String { localized("wait_for_response") }
+    static var waitForResponseShort: String { localized("wait_for_response_short") }
     static var retry: String { localized("retry") }
 
     static var chats: String { localized("chats") }

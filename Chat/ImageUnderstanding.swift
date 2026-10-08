@@ -4,7 +4,7 @@ import Vision
 
 enum ImageUnderstanding {
     nonisolated static func context(for attachments: [ChatAttachment]) -> String {
-        let descriptions = attachments.filter(\.isImage).prefix(3).enumerated().compactMap { index, attachment in
+        let descriptions = attachments.filter { $0.isImage }.prefix(3).enumerated().compactMap { index, attachment in
             describe(attachment, number: index + 1)
         }
         guard !descriptions.isEmpty else { return "" }

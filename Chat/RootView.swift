@@ -23,7 +23,7 @@ struct RootView: View {
                         if let chat = store.selectedChat, !chat.messages.isEmpty {
                             ConversationView(store: store)
                         } else {
-                            WelcomeView { prompt in
+                            WelcomeView(isInputBlocked: store.isSelectedChatBlockedByAnotherChat) { prompt in
                                 store.send(prompt)
                             }
                         }
@@ -57,6 +57,7 @@ struct RootView: View {
                     .safeAreaInset(edge: .bottom, spacing: 0) {
                         ComposerView(
                             isGenerating: store.generationState == .generating,
+                            isBlockedByAnotherChat: store.isSelectedChatBlockedByAnotherChat,
                             onSend: { text, attachments in
                                 store.send(text, attachments: attachments)
                             },
@@ -252,6 +253,7 @@ struct RootView: View {
 }
 
 private struct WelcomeView: View {
+    let isInputBlocked: Bool
     let onPromptSelected: (String) -> Void
 
     private var suggestions: [(String, String)] {
@@ -309,6 +311,8 @@ private struct WelcomeView: View {
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
+                        .disabled(isInputBlocked)
+                        .opacity(isInputBlocked ? 0.48 : 1)
                         .softCard()
                     }
                 }
